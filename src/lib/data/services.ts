@@ -1,11 +1,10 @@
-import { Bot, Video, Palette, LineChart, Users, Megaphone, Brain } from "lucide-react"
 import { type Service } from "../types/service"
 
 export const services: Record<string, Service> = {
   "digital-automation": {
     title: "Digital Automation",
     description: "Streamline your operations with cutting-edge automation solutions",
-    icon: Bot,
+    iconName: "Bot",
     longDescription: "Transform your business operations with our state-of-the-art digital automation solutions. We help organizations reduce manual work, minimize errors, and increase efficiency through intelligent automation.",
     features: [
       "Workflow Automation",
@@ -45,7 +44,7 @@ export const services: Record<string, Service> = {
   "it-systems": {
     title: "IT Systems",
     description: "Custom IT solutions designed to scale with your business",
-    icon: Brain,
+    iconName: "Brain",
     longDescription: "Empower your business with robust, scalable IT systems tailored to your specific needs. We design and implement solutions that drive efficiency and growth.",
     features: [
       "Custom Software Development",
@@ -85,7 +84,7 @@ export const services: Record<string, Service> = {
   "video-production": {
     title: "Video Production",
     description: "Compelling visual content that tells your brand story",
-    icon: Video,
+    iconName: "Video",
     longDescription: "Create engaging video content that captures your audience's attention and effectively communicates your message. From concept to final delivery, we handle every aspect of video production.",
     features: [
       "Corporate Videos",
@@ -125,7 +124,7 @@ export const services: Record<string, Service> = {
   "branding": {
     title: "Branding",
     description: "Build a strong, memorable brand identity that resonates",
-    icon: Palette,
+    iconName: "Palette",
     longDescription: "Develop a powerful brand identity that sets you apart from competitors and connects with your target audience. Our branding solutions are strategic, creative, and impactful.",
     features: [
       "Brand Strategy",
@@ -165,7 +164,7 @@ export const services: Record<string, Service> = {
   "marketing-strategy": {
     title: "Marketing Strategy",
     description: "Data-driven strategies to achieve your business goals",
-    icon: LineChart,
+    iconName: "LineChart",
     longDescription: "Develop comprehensive marketing strategies that drive results. Our data-driven approach ensures your marketing efforts are targeted, effective, and measurable.",
     features: [
       "Market Research",
@@ -205,7 +204,7 @@ export const services: Record<string, Service> = {
   "kol-endorsement": {
     title: "KOL Endorsement",
     description: "Connect with influential voices in your industry",
-    icon: Users,
+    iconName: "Users",
     longDescription: "Leverage the power of Key Opinion Leaders to amplify your brand message and reach new audiences. We connect you with the right influencers for authentic partnerships.",
     features: [
       "Influencer Selection",
@@ -245,7 +244,7 @@ export const services: Record<string, Service> = {
   "performance-marketing": {
     title: "Performance Marketing",
     description: "Results-focused campaigns that drive real ROI",
-    icon: Megaphone,
+    iconName: "Megaphone",
     longDescription: "Drive measurable results with our performance marketing solutions. We focus on data-driven campaigns that deliver clear ROI and business growth.",
     features: [
       "PPC Campaigns",
