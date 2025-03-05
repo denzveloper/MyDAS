@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { ArrowRight, MousePointer } from "lucide-react"
+import { SparklesCore } from "@/components/ui/sparkles"
+import { FloatingPaper } from "@/components/ui/floating-paper"
+import { RoboAnimation } from "@/components/ui/robo-animation"
 
 export function Hero() {
   const [ref, inView] = useInView({
@@ -14,7 +17,23 @@ export function Hero() {
   return (
     <section ref={ref} className="relative py-20 md:py-32 overflow-hidden">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 bg-grid-gray-900/[0.04] -z-10" />
+      <div className="absolute inset-0 bg-grid-white/[0.02] -z-10" />
+      
+      {/* Sparkles animation */}
+      <div className="absolute inset-0 -z-10">
+        <SparklesCore
+          id="hero-sparkles"
+          background="transparent"
+          minSize={0.6}
+          maxSize={1.2}
+          particleDensity={70}
+          className="w-full h-full"
+          particleColor="hsl(var(--primary))"
+        />
+      </div>
+      
+      {/* Floating papers */}
+      <FloatingPaper count={8} className="-z-10" />
       
       <motion.div 
         initial={{ opacity: 0 }}
@@ -35,6 +54,15 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6 }}
+            className="flex justify-center mb-8"
+          >
+            <RoboAnimation />
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
               Transform Your Digital Presence with{" "}
@@ -53,7 +81,7 @@ export function Hero() {
             className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
             Your partner in digital automation, branding, and performance marketing.
             We turn your vision into measurable success.
@@ -63,7 +91,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
           >
             <Button size="lg" className="text-lg group">
               Get Started

@@ -24,30 +24,37 @@ export default function ServicePage({ params }: ServicePageProps) {
       case "digital-automation":
         return dynamic(() => import("./digital-automation-client"), {
           loading: () => <div className="animate-pulse bg-gray-100 dark:bg-gray-800 h-screen w-full"></div>,
+          ssr: false
         })
       case "it-systems":
         return dynamic(() => import("./it-systems-client"), {
           loading: () => <div className="animate-pulse bg-gray-100 dark:bg-gray-800 h-screen w-full"></div>,
+          ssr: false
         })
       case "marketing-strategy":
         return dynamic(() => import("./marketing-strategy-client"), {
           loading: () => <div className="animate-pulse bg-gray-100 dark:bg-gray-800 h-screen w-full"></div>,
+          ssr: false
         })
       case "performance-marketing":
         return dynamic(() => import("./performance-marketing-client"), {
           loading: () => <div className="animate-pulse bg-gray-100 dark:bg-gray-800 h-screen w-full"></div>,
+          ssr: false
         })
       case "branding":
         return dynamic(() => import("./branding-client"), {
           loading: () => <div className="animate-pulse bg-gray-100 dark:bg-gray-800 h-screen w-full"></div>,
+          ssr: false
         })
       case "video-production":
         return dynamic(() => import("./video-production-client"), {
           loading: () => <div className="animate-pulse bg-gray-100 dark:bg-gray-800 h-screen w-full"></div>,
+          ssr: false
         })
       case "kol-endorsement":
         return dynamic(() => import("./kol-endorsement-client"), {
           loading: () => <div className="animate-pulse bg-gray-100 dark:bg-gray-800 h-screen w-full"></div>,
+          ssr: false
         })
       default:
         return null
@@ -56,7 +63,14 @@ export default function ServicePage({ params }: ServicePageProps) {
 
   // If a specific client component exists for this slug, render it
   if (ClientComponent) {
-    return <ClientComponent service={service} />
+    // Only pass serializable data to client component
+    const serializedService = {
+      ...service,
+      // Ensure we're only passing the icon name, not the component
+      icon: undefined
+    }
+    
+    return <ClientComponent service={serializedService} />
   }
 
   // Otherwise, fall back to the default static page
