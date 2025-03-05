@@ -7,15 +7,42 @@ import { ArrowRight, MousePointer } from "lucide-react"
 import { SparklesCore } from "@/components/ui/sparkles"
 import { FloatingPaper } from "@/components/ui/floating-paper"
 import { RoboAnimation } from "@/components/ui/robo-animation"
+import { useScrollPosition } from "@/hooks/useScrollPosition"
 
 export function Hero() {
   const [ref, inView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
   })
-
+  
+  const scrollY = useScrollPosition()
+  
+  // Threshold where animation completes
+  const scrollThreshold = 800
+  
+  // Calculate progress (0 to 1)
+  const progress = Math.min(1, scrollY / scrollThreshold)
+  
+  // Apply easing for acceleration effect (cubic easing)
+  const easedProgress = progress * progress * progress
+  
+  // Calculate opacity
+  const opacity = Math.max(0, 1 - progress * 1.5)
+  
+  // Calculate transform - accelerating away effect
+  const translateY = -easedProgress * 300 // pixels to move up
+  
   return (
-    <section ref={ref} className="relative py-20 md:py-32 overflow-hidden">
+    <section 
+      ref={ref} 
+      className="relative py-20 md:py-32 overflow-hidden"
+      style={{ 
+        opacity: opacity,
+        transform: `translateY(${translateY}px)`,
+        transition: 'transform 0.05s ease-out, opacity 0.1s ease-out',
+        willChange: 'transform, opacity' // optimization for smoother animations
+      }}
+    >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 bg-grid-white/[0.02] -z-10" />
       
