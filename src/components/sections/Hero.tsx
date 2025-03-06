@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
@@ -10,6 +11,14 @@ import { RoboAnimation } from "@/components/ui/robo-animation"
 import { useScrollPosition } from "@/hooks/useScrollPosition"
 
 export function Hero() {
+  // Add a client-side loading state
+  const [isClient, setIsClient] = useState(false)
+  
+  // Set isClient to true after component mounts to ensure we're running in the browser
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+  
   const [ref, inView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
@@ -31,6 +40,28 @@ export function Hero() {
   
   // Calculate transform - accelerating away effect
   const translateY = -easedProgress * 300 // pixels to move up
+  
+  // If not client-side yet, render a simple placeholder with the same dimensions
+  if (!isClient) {
+    return (
+      <section className="relative py-20 md:py-32 overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center min-h-[60vh] flex items-center justify-center">
+            {/* Pre-render static content for SEO, but hidden until client-side hydration */}
+            <div className="animate-pulse w-full">
+              <div className="h-32 w-32 bg-primary/20 rounded-full mx-auto mb-8"></div>
+              <div className="h-16 bg-gray-200 dark:bg-gray-800 rounded-md w-4/5 mx-auto mb-6"></div>
+              <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded-md w-3/4 mx-auto mb-8"></div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="h-12 w-40 bg-primary/20 rounded-md mx-auto"></div>
+                <div className="h-12 w-40 bg-gray-200 dark:bg-gray-800 rounded-md mx-auto"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
   
   return (
     <section 

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
@@ -10,7 +11,7 @@ const portfolioItems = [
     client: "TechRetail Co.",
     description:
       "Implemented automated inventory and order management systems, resulting in 40% operational cost reduction.",
-    image: "/portfolio/ecommerce.jpg",
+    image: "/images/online marketplace.jpg",
     results: ["40% cost reduction", "60% faster order processing", "99.9% accuracy"],
   },
   {
@@ -19,7 +20,7 @@ const portfolioItems = [
     client: "FreshStart Foods",
     description:
       "Complete brand overhaul including visual identity, packaging, and digital presence.",
-    image: "/portfolio/branding.jpg",
+    image: "/images/branding.jpg",
     results: ["150% social media growth", "85% brand recognition", "3x sales increase"],
   },
   {
@@ -28,7 +29,7 @@ const portfolioItems = [
     client: "SportsFit",
     description:
       "Created viral video content series that showcased product benefits and user success stories.",
-    image: "/portfolio/video.jpg",
+    image: "/images/video production.jpg",
     results: ["1M+ views", "200% engagement rate", "45% conversion rate"],
   },
 ]
@@ -47,9 +48,14 @@ export function Portfolio() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {portfolioItems.map((item) => (
             <Card key={item.title} className="overflow-hidden">
-              <div className="aspect-video bg-gray-100">
-                {/* Replace with actual image */}
-                <div className="w-full h-full bg-gray-200" />
+              <div className="aspect-video bg-gray-100 relative">
+                <Image 
+                  src={item.image} 
+                  alt={`${item.title} case study thumbnail`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
               </div>
               <CardHeader>
                 <CardTitle>{item.title}</CardTitle>
