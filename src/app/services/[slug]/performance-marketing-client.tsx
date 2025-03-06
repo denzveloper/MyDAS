@@ -1,47 +1,19 @@
 "use client"
 
 import React, { useState } from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  CheckCircle, 
-  BarChart, 
-  Clock, 
-  ChevronDown,
-  Menu,
-  X,
-  Bot,
-  Brain,
-  Video,
-  Palette,
-  LineChart,
-  Users,
-  Megaphone,
-  LucideIcon,
-  Target,
-  TrendingUp
-} from 'lucide-react';
-import { 
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from "@/components/ui/accordion";
+import { LineChart, Target, Search, LucideIcon } from 'lucide-react';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { getIconComponent } from "@/lib/utils/icons"
+import { ServiceHero } from "@/components/services/ServiceHero";
+import { StatsSection } from "@/components/services/StatsSection";
+import { OverviewSection } from "@/components/services/OverviewSection";
+import { FeaturesAndBenefits } from "@/components/services/FeaturesAndBenefits";
+import { ProcessSection } from "@/components/services/ProcessSection";
+import { CTASection } from "@/components/shared/CTASection";
 
 interface PerformanceMarketingClientProps {
   service: {
@@ -63,134 +35,58 @@ type StatItem = {
 
 export default function PerformanceMarketingClient({ service }: PerformanceMarketingClientProps) {
   const [activeTab, setActiveTab] = useState("overview");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   if (!service) return <div>No service data provided.</div>;
 
-  const IconComponent = getIconComponent(service.iconName);
-
   const stats: StatItem[] = [
-    { value: '300%', label: 'Average ROI', icon: TrendingUp },
-    { value: '65%', label: 'Conversion Rate Increase', icon: Target },
-    { value: '40%', label: 'Cost Per Acquisition Reduction', icon: BarChart },
+    { value: '300%', label: 'Average ROAS', icon: LineChart },
+    { value: '65%', label: 'Lower Acquisition Cost', icon: Target },
+    { value: '10x', label: 'Campaign Visibility', icon: Search },
   ];
-
-  // Animation variants
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-        duration: 0.5
-      }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    show: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const fadeInLeft = {
-    hidden: { opacity: 0, x: -20 },
-    show: { 
-      opacity: 1, 
-      x: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const fadeInRight = {
-    hidden: { opacity: 0, x: 20 },
-    show: { 
-      opacity: 1, 
-      x: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const scaleIn = {
-    hidden: { scale: 0.8, opacity: 0 },
-    show: { 
-      scale: 1, 
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-200">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 py-12 md:py-20 sm:px-6 lg:px-8">
-          <Link
-            href="/#services"
-            className="inline-flex items-center text-blue-400 hover:text-blue-300 mb-8 transition-colors"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Services
-          </Link>
+      <ServiceHero
+        title={service.title}
+        description={service.description}
+        iconName={service.iconName}
+        tags={['Performance', 'ROI', 'Data-Driven']}
+      />
 
-          <motion.div 
-            variants={fadeIn}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
-            className="flex flex-col md:flex-row md:items-center md:justify-between gap-8"
-          >
-            <div className="md:max-w-2xl">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 text-orange-400">
-                {service.title}
-              </h1>
-              <p className="text-xl text-gray-300 mb-6">{service.description}</p>
-              <div className="flex flex-wrap gap-3">
-                <span className="bg-orange-400/20 text-orange-400 px-3 py-1 rounded-full text-sm font-medium">ROI-Focused</span>
-                <span className="bg-orange-400/20 text-orange-400 px-3 py-1 rounded-full text-sm font-medium">Data-Driven</span>
-                <span className="bg-orange-400/20 text-orange-400 px-3 py-1 rounded-full text-sm font-medium">Conversion-Optimized</span>
-              </div>
-            </div>
-            <motion.div 
-              variants={scaleIn}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.3 }}
-              className="hidden md:flex rounded-lg bg-gradient-to-br from-orange-400/30 to-orange-500/20 p-8"
-            >
-              <IconComponent className="h-24 w-24 text-orange-400" />
-            </motion.div>
-          </motion.div>
-        </div>
+      {/* Stats Section */}
+      <StatsSection stats={stats} />
+
+      {/* Main Content with Tabs */}
+      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <Tabs defaultValue="overview" className="w-full" onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-3 mb-8 bg-gray-800 text-gray-300">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="features">Features & Benefits</TabsTrigger>
+            <TabsTrigger value="process">Our Process</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="mt-4">
+            <OverviewSection description={service.longDescription} />
+          </TabsContent>
+
+          <TabsContent value="features" className="mt-4">
+            <FeaturesAndBenefits features={service.features} benefits={service.benefits} />
+          </TabsContent>
+
+          <TabsContent value="process" className="mt-4">
+            <ProcessSection process={service.process} />
+          </TabsContent>
+        </Tabs>
       </div>
+
+      {/* CTA Section */}
+      <CTASection 
+        title="Ready to Boost Your Performance Marketing?"
+        description="Let our performance team optimize your campaigns for maximum ROI and conversion rates."
+        buttonText="Maximize Results"
+        buttonLink="/contact"
+      />
     </div>
   );
 }
