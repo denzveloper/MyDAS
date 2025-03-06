@@ -27,33 +27,39 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section id="testimonials" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section id="testimonials" className="py-20 bg-gray-950 relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-white/[0.02] pointer-events-none"></div>
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <div className="inline-block mb-3">
+            <span className="bg-yellow-400/20 text-yellow-400 text-sm font-medium px-3 py-1 rounded-full">
+              Testimonials
+            </span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
             What Our Clients Say
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-400">
             Don't just take our word for it - hear from some of our satisfied
             clients
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
+          {testimonials.map((testimonial, index) => (
             <Card
               key={testimonial.author}
-              className="relative bg-white"
+              className="relative border border-gray-800 bg-gray-900/50 backdrop-blur-sm hover:border-yellow-400/30 transition-all duration-300"
             >
               <CardContent className="pt-12">
-                <Quote className="absolute top-6 left-6 h-8 w-8 text-primary/20" />
-                <blockquote className="text-gray-700 mb-6">
+                <Quote className="absolute top-6 left-6 h-8 w-8 text-yellow-400/30" />
+                <blockquote className="text-gray-300 mb-6">
                   "{testimonial.quote}"
                 </blockquote>
                 <div className="flex items-center space-x-4">
                   <div>
-                    <div className="font-semibold">{testimonial.author}</div>
-                    <div className="text-sm text-gray-600">
+                    <div className="font-semibold text-white">{testimonial.author}</div>
+                    <div className="text-sm text-gray-400">
                       {testimonial.position} at {testimonial.company}
                     </div>
                   </div>

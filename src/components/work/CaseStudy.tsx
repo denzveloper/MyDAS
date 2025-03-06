@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { ArrowRight, CheckCircle2, Target, Users, BarChart3, Lightbulb } from 'lucide-react'
+import { ResponsiveImage, BackgroundImage } from '@/components/image'
 
 interface CaseStudyProps {
   caseStudy: CaseStudyType
@@ -29,6 +30,7 @@ export function CaseStudy({ caseStudy, isPreview = false }: CaseStudyProps) {
     results,
     clientName,
     clientLogo,
+    imageId = '',
   } = caseStudy
 
   // Convert category to display format (e.g., 'digital-automation' -> 'Digital Automation')
@@ -38,11 +40,23 @@ export function CaseStudy({ caseStudy, isPreview = false }: CaseStudyProps) {
     .join(' ')
 
   if (isPreview) {
+    console.log('CaseStudy Preview:', { title, imageId, thumbnail });
+    
+    // Map imageId to actual image path
+    let imagePath = thumbnail;
+    if (imageId === 'branding') {
+      imagePath = '/images/branding.jpg';
+    } else if (imageId === 'onlineMarketplace') {
+      imagePath = '/images/online marketplace.jpg';
+    } else if (imageId === 'videoProduction') {
+      imagePath = '/images/video production.jpg';
+    }
+    
     return (
       <Card className="overflow-hidden transition-all hover:shadow-lg">
         <div className="relative h-60 w-full">
-          <Image
-            src={thumbnail}
+          <ResponsiveImage
+            src={imagePath}
             alt={title}
             fill
             className="object-cover"
@@ -68,28 +82,39 @@ export function CaseStudy({ caseStudy, isPreview = false }: CaseStudyProps) {
     <div className="space-y-12">
       {/* Hero Section */}
       <section className="relative flex min-h-[50vh] w-full items-center overflow-hidden rounded-xl">
-        <Image
-          src={thumbnail}
+        <BackgroundImage
+          src={(() => {
+            // Map imageId to actual image path
+            if (imageId === 'branding') {
+              return '/images/branding.jpg';
+            } else if (imageId === 'onlineMarketplace') {
+              return '/images/online marketplace.jpg';
+            } else if (imageId === 'videoProduction') {
+              return '/images/video production.jpg';
+            }
+            return thumbnail;
+          })()}
           alt={title}
-          fill
-          className="object-cover"
-          sizes="100vw"
+          overlay
+          overlayColor="black"
+          overlayOpacity={50}
+          className="absolute inset-0"
           priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30" />
-        <div className="container relative z-10 px-4 py-20 text-white">
-          <Badge className="mb-4 bg-primary">{displayCategory}</Badge>
-          <h1 className="mb-4 text-4xl font-bold md:text-5xl">{title}</h1>
-          <p className="mb-6 max-w-2xl text-lg text-gray-200">{description}</p>
-          {clientLogo && (
-            <div className="flex items-center gap-3">
-              <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white p-2">
-                <Image src={clientLogo} alt={clientName} fill className="object-contain" />
+        >
+          <div className="container relative z-10 px-4 py-20 text-white">
+            <Badge className="mb-4 bg-primary">{displayCategory}</Badge>
+            <h1 className="mb-4 text-4xl font-bold md:text-5xl">{title}</h1>
+            <p className="mb-6 max-w-2xl text-lg text-gray-200">{description}</p>
+            {clientLogo && (
+              <div className="flex items-center gap-3">
+                <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white p-2">
+                  <Image src={clientLogo} alt={clientName} fill className="object-contain" />
+                </div>
+                <p className="font-medium">{clientName}</p>
               </div>
-              <p className="font-medium">{clientName}</p>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        </BackgroundImage>
       </section>
 
       <div className="container px-4">
@@ -155,7 +180,12 @@ export function CaseStudy({ caseStudy, isPreview = false }: CaseStudyProps) {
             <div className="grid gap-4 sm:grid-cols-2">
               {images.slice(0, 4).map((image, index) => (
                 <div key={index} className="relative aspect-video overflow-hidden rounded-lg">
-                  <Image src={image} alt={`${title} - Image ${index + 1}`} fill className="object-cover" />
+                  <ResponsiveImage 
+                    src={image} 
+                    alt={`${title} - Image ${index + 1}`} 
+                    fill 
+                    className="object-cover" 
+                  />
                 </div>
               ))}
             </div>

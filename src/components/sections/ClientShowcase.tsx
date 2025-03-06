@@ -3,13 +3,6 @@
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { Separator } from "@/components/ui/separator"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
 import { Award, BarChart, Building, Globe, Users } from "lucide-react"
 import { useState, useEffect } from "react"
 
@@ -145,18 +138,14 @@ export function ClientShowcase() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mb-16"
         >
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {clients.map((client) => (
-                <CarouselItem key={client.id} className="md:basis-1/4 lg:basis-1/6">
+          <div className="relative overflow-hidden w-full">
+            <div className="flex animate-scroll hover:[animation-play-state:paused]">
+              {/* First set of client logos */}
+              <div className="flex items-center justify-around min-w-full gap-8 px-4">
+                {clients.map((client) => (
                   <motion.div 
-                    className="h-24 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 mx-2"
+                    key={client.id}
+                    className="h-24 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 mx-2 flex-shrink-0 w-[180px]"
                     whileHover={{ 
                       y: -5, 
                       boxShadow: "0 10px 30px -10px rgba(0, 0, 0, 0.2)",
@@ -167,14 +156,29 @@ export function ClientShowcase() {
                     <div className="text-3xl font-bold text-primary">{client.logo}</div>
                     <div className="text-sm text-gray-600 dark:text-gray-400 ml-2">{client.name}</div>
                   </motion.div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="flex justify-center mt-4 gap-2">
-              <CarouselPrevious className="relative static" />
-              <CarouselNext className="relative static" />
+                ))}
+              </div>
+              
+              {/* Duplicated set for seamless looping */}
+              <div className="flex items-center justify-around min-w-full gap-8 px-4">
+                {clients.map((client) => (
+                  <motion.div 
+                    key={`dup-${client.id}`}
+                    className="h-24 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 mx-2 flex-shrink-0 w-[180px]"
+                    whileHover={{ 
+                      y: -5, 
+                      boxShadow: "0 10px 30px -10px rgba(0, 0, 0, 0.2)",
+                      borderColor: "var(--primary)"
+                    }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="text-3xl font-bold text-primary">{client.logo}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 ml-2">{client.name}</div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </Carousel>
+          </div>
         </motion.div>
 
         <Separator className="my-12" />

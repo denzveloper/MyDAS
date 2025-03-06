@@ -153,74 +153,6 @@ export default function ITSystemsClient({ service }: ITSystemsClientProps) {
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-200">
-      {/* Navbar */}
-      <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <Link href="/" className="flex-shrink-0">
-                <span className="text-blue-400 font-bold text-2xl">MIDAS</span>
-              </Link>
-              <div className="hidden md:block ml-10">
-                <div className="flex items-center space-x-8">
-                  <Link href="/" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Home
-                  </Link>
-                  <Link href="/#services" className="text-blue-400 hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium">
-                    Services
-                  </Link>
-                  <Link href="/about" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    About
-                  </Link>
-                  <Link href="/portfolio" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Portfolio
-                  </Link>
-                  <Link href="/contact" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Contact
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="md:hidden">
-              <button
-                type="button"
-                className="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-gray-900 py-2 border-t border-gray-800">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <Link href="/" className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium">
-                Home
-              </Link>
-              <Link href="/#services" className="block text-blue-400 hover:text-blue-300 px-3 py-2 rounded-md text-base font-medium">
-                Services
-              </Link>
-              <Link href="/about" className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium">
-                About
-              </Link>
-              <Link href="/portfolio" className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium">
-                Portfolio
-              </Link>
-              <Link href="/contact" className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium">
-                Contact
-              </Link>
-            </div>
-          </div>
-        )}
-      </nav>
-
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-12 md:py-20 sm:px-6 lg:px-8">
@@ -420,32 +352,6 @@ export default function ITSystemsClient({ service }: ITSystemsClientProps) {
           </motion.div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 border-t border-gray-800 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <span className="text-blue-400 font-bold text-xl">MIDAS</span>
-              <p className="text-gray-400 text-sm mt-1">Your partner in IT excellence</p>
-            </div>
-            <div className="flex space-x-6">
-              <Link href="/privacy" className="text-gray-400 hover:text-white text-sm">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white text-sm">
-                Terms of Service
-              </Link>
-              <Link href="/contact" className="text-gray-400 hover:text-white text-sm">
-                Contact Us
-              </Link>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-            © {new Date().getFullYear()} MIDAS. All rights reserved.
-          </div>
-        </div>
-      </footer>
     </div>
   );
 } 

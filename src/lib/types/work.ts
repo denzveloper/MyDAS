@@ -23,6 +23,7 @@ export interface Project {
     avatar?: StaticImageData | string
     rating?: number
   }
+  imageId?: string
 }
 
 export interface CaseStudy extends Project {

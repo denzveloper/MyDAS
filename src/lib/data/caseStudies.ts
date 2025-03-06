@@ -1,12 +1,18 @@
 import { CaseStudy } from '@/lib/types/work';
 
-export const CASE_STUDIES: CaseStudy[] = [
+// We'll add image IDs to make it easier to reference the correct images
+interface CaseStudyWithImageId extends CaseStudy {
+  imageId: 'branding' | 'onlineMarketplace' | 'videoProduction';
+}
+
+export const CASE_STUDIES: CaseStudyWithImageId[] = [
   {
     id: 'ecommerce-automation',
     title: 'E-commerce Automation',
     category: 'digital-automation',
     description: 'Implemented automated inventory and order management systems, resulting in 40% operational cost reduction.',
-    thumbnail: '/portfolio/ecommerce.jpg',
+    thumbnail: '/portfolio/online marketplace.jpg',
+    imageId: 'onlineMarketplace',
     images: [
       '/portfolio/ecommerce-detail-1.jpg',
       '/portfolio/ecommerce-detail-2.jpg',
@@ -74,6 +80,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     category: 'branding',
     description: 'Complete brand overhaul including visual identity, packaging, and digital presence.',
     thumbnail: '/portfolio/branding.jpg',
+    imageId: 'branding',
     images: [
       '/portfolio/branding-detail-1.jpg',
       '/portfolio/branding-detail-2.jpg',
@@ -142,7 +149,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     title: 'Video Marketing Campaign',
     category: 'video-production',
     description: 'Created viral video content series that showcased product benefits and user success stories.',
-    thumbnail: '/portfolio/video.jpg',
+    thumbnail: '/portfolio/video production.jpg',
+    imageId: 'videoProduction',
     images: [
       '/portfolio/video-detail-1.jpg',
       '/portfolio/video-detail-2.jpg',
@@ -213,5 +221,5 @@ export function getCaseStudyById(id: string): CaseStudy | undefined {
 }
 
 export function getFeaturedCaseStudies(): CaseStudy[] {
-  return CASE_STUDIES.slice(0, 2);
+  return CASE_STUDIES;
 } 

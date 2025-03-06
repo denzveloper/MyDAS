@@ -1,0 +1,117 @@
+# MIDAS Website Color Analysis
+
+## Overview
+This document provides a comprehensive analysis of the color schemes used in the MIDAS marketing agency website for both light and dark themes. The website uses a sophisticated color system based on HSL (Hue, Saturation, Lightness) values defined as CSS variables.
+
+## Theme Implementation
+The website implements theming using Next.js with the `next-themes` library. Theme switching is handled by the `ThemeToggle` component, which allows users to select between light, dark, and system preferences.
+
+## Color Variables
+
+### Light Theme (Default Theme)
+The website appears to use a dark color scheme as its default theme, with the following HSL color variables:
+
+| Variable | HSL Value | Description | Visual Representation |
+|----------|-----------|-------------|------------------------|
+| --background | 222.2 84% 4.9% | Very dark blue-black background | Deep, dark blue-black |
+| --foreground | 210 40% 98% | Near-white text color | Almost white with slight blue tint |
+| --card | 222.2 84% 4.9% | Card background matching main background | Deep, dark blue-black |
+| --card-foreground | 210 40% 98% | Card text color | Almost white with slight blue tint |
+| --popover | 222.2 84% 4.9% | Popover background | Deep, dark blue-black |
+| --popover-foreground | 210 40% 98% | Popover text color | Almost white with slight blue tint |
+| --primary | 48 96% 53% | Vibrant gold/yellow | Bright gold/yellow |
+| --primary-foreground | 222.2 47.4% 11.2% | Dark blue-gray | Dark blue-gray |
+| --secondary | 217.2 32.6% 17.5% | Muted blue-gray | Muted, dark blue-gray |
+| --secondary-foreground | 210 40% 98% | Near-white text | Almost white with slight blue tint |
+| --muted | 217.2 32.6% 17.5% | Muted blue-gray | Muted, dark blue-gray |
+| --muted-foreground | 215 20.2% 65.1% | Light blue-gray | Light blue-gray |
+| --accent | 48 96% 53% | Vibrant gold/yellow (same as primary) | Bright gold/yellow |
+| --accent-foreground | 222.2 47.4% 11.2% | Dark blue-gray | Dark blue-gray |
+| --destructive | 0 62.8% 30.6% | Dark red | Dark red |
+| --destructive-foreground | 210 40% 98% | Near-white text | Almost white with slight blue tint |
+| --border | 217.2 32.6% 17.5% | Muted blue-gray border | Muted, dark blue-gray |
+| --input | 217.2 32.6% 17.5% | Input field background | Muted, dark blue-gray |
+| --ring | 48 96% 53% | Focus ring color (gold/yellow) | Bright gold/yellow |
+| --chart-1 | 12 76% 61% | Chart color 1 | Coral/salmon |
+| --chart-2 | 173 58% 39% | Chart color 2 | Teal |
+| --chart-3 | 197 37% 24% | Chart color 3 | Dark blue |
+| --chart-4 | 43 74% 66% | Chart color 4 | Yellow-green |
+| --chart-5 | 27 87% 67% | Chart color 5 | Orange |
+
+### Dark Theme
+When the dark theme is activated, the following HSL color variables are applied:
+
+| Variable | HSL Value | Description | Visual Representation |
+|----------|-----------|-------------|------------------------|
+| --background | 20 14.3% 4.1% | Very dark brown-black | Almost black with brown tint |
+| --foreground | 60 9.1% 97.8% | Off-white text color | Warm off-white |
+| --card | 20 14.3% 4.1% | Card background matching main background | Almost black with brown tint |
+| --card-foreground | 60 9.1% 97.8% | Card text color | Warm off-white |
+| --popover | 20 14.3% 4.1% | Popover background | Almost black with brown tint |
+| --popover-foreground | 60 9.1% 97.8% | Popover text color | Warm off-white |
+| --primary | 47.9 95.8% 53.1% | Vibrant gold/yellow | Bright gold/yellow |
+| --primary-foreground | 26 83.3% 14.1% | Very dark brown | Very dark brown |
+| --secondary | 12 6.5% 15.1% | Dark brown-gray | Dark brown-gray |
+| --secondary-foreground | 60 9.1% 97.8% | Off-white text | Warm off-white |
+| --muted | 12 6.5% 15.1% | Dark brown-gray | Dark brown-gray |
+| --muted-foreground | 24 5.4% 63.9% | Medium brown-gray | Medium brown-gray |
+| --accent | 12 6.5% 15.1% | Dark brown-gray | Dark brown-gray |
+| --accent-foreground | 60 9.1% 97.8% | Off-white text | Warm off-white |
+| --destructive | 0 62.8% 30.6% | Dark red | Dark red |
+| --destructive-foreground | 60 9.1% 97.8% | Off-white text | Warm off-white |
+| --border | 12 6.5% 15.1% | Dark brown-gray border | Dark brown-gray |
+| --input | 12 6.5% 15.1% | Input field background | Dark brown-gray |
+| --ring | 35.5 91.7% 32.9% | Focus ring color (amber) | Amber/orange |
+| --chart-1 | 220 70% 50% | Chart color 1 | Blue |
+| --chart-2 | 160 60% 45% | Chart color 2 | Green-teal |
+| --chart-3 | 30 80% 55% | Chart color 3 | Orange |
+| --chart-4 | 280 65% 60% | Chart color 4 | Purple |
+| --chart-5 | 340 75% 55% | Chart color 5 | Pink-red |
+
+## Additional Color Utilities
+
+The website also defines several utility classes for consistent styling:
+
+### Accent Color Utilities
+- `.accent-text`: Text color using the primary yellow (text-yellow-400)
+- `.accent-hover`: Hover state for text (hover:text-yellow-300)
+- `.accent-bg`: Background using the primary yellow (bg-yellow-400)
+- `.accent-bg-transparent`: Semi-transparent background (bg-yellow-400/20)
+- `.accent-border`: Border using the primary yellow (border-yellow-400/50)
+
+### Background Utilities
+- `.gradient-bg`: Gradient background from dark to darker gray (bg-gradient-to-r from-gray-900 to-gray-800)
+- `.card-dark`: Dark card styling with hover effects (bg-gray-800 border-gray-700 with yellow accent on hover)
+- `.hero-background`: Pattern background using SVG
+
+## Color Scheme Analysis
+
+### Primary Brand Color
+The primary brand color is a vibrant gold/yellow (HSL: 48 96% 53% in light theme, 47.9 95.8% 53.1% in dark theme). This color is used for:
+- Primary buttons and interactive elements
+- Accent elements and highlights
+- Focus rings and borders for interactive elements
+
+### Color Palette Characteristics
+
+1. **Light Theme (Default)**
+   - Base: Deep blue-black background with near-white text
+   - Accent: Vibrant gold/yellow for emphasis and interactive elements
+   - Supporting: Muted blue-gray tones for secondary elements
+   - Charts: Diverse palette of coral, teal, dark blue, yellow-green, and orange
+
+2. **Dark Theme**
+   - Base: Very dark brown-black background with warm off-white text
+   - Accent: Same vibrant gold/yellow as light theme for consistency
+   - Supporting: Dark brown-gray tones for secondary elements
+   - Charts: Different palette of blue, green-teal, orange, purple, and pink-red
+
+### Accessibility Considerations
+- High contrast between background and text colors in both themes
+- Consistent use of the gold/yellow accent color across themes for brand recognition
+- Different chart color palettes optimized for each theme's background
+
+## Conclusion
+The MIDAS website employs a sophisticated color system that maintains brand consistency while providing appropriate contrast and visual hierarchy in both light and dark themes. The primary gold/yellow accent color serves as a distinctive brand element across both themes, while the supporting colors are adjusted to complement the different base colors of each theme.
+
+The color scheme effectively communicates a premium, professional aesthetic appropriate for a marketing agency, with the gold/yellow accent adding energy and distinctiveness to the design. 
