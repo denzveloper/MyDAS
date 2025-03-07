@@ -1,0 +1,7 @@
+This is a placeholder file. You should add the following images to this directory:
+
+1. branding.jpg - The branding image from your shared photos
+2. online marketplace.jpg - The online marketplace image from your shared photos
+3. video production.jpg - The video production image from your shared photos
+
+These images will be used in your case study cards. 
