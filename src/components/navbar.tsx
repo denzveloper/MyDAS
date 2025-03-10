@@ -13,7 +13,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
-  const servicesRef = useRef(null)
+  const servicesRef = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
   
   const chevronSpring = useSpring({
@@ -23,8 +23,8 @@ export function Navbar() {
   
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (servicesRef.current && !servicesRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (servicesRef.current && !servicesRef.current.contains(event.target as Node)) {
         setServicesDropdownOpen(false)
       }
     }
@@ -85,7 +85,7 @@ export function Navbar() {
             <Link 
               href="/" 
               className="relative font-bold text-2xl group overflow-hidden"
-              onMouseEnter={(e) => {
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
                 const target = e.currentTarget.querySelector('.shimmer-effect') as HTMLElement;
                 if (target) {
                   target.style.opacity = '0.7';
@@ -96,7 +96,7 @@ export function Navbar() {
                   textTarget.style.animation = 'shine 1.5s ease-in-out infinite';
                 }
               }}
-              onMouseLeave={(e) => {
+              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
                 const target = e.currentTarget.querySelector('.shimmer-effect') as HTMLElement;
                 if (target) {
                   target.style.opacity = '0';
@@ -165,7 +165,7 @@ export function Navbar() {
                     transition={{ duration: 0.2 }}
                   >
                     <div className="py-1">
-                      {Object.entries(services).map(([slug, service]) => (
+                      {Object.entries(services).map(([slug, service]: [string, { title: string }]) => (
                         <Link 
                           key={slug}
                           href={`/services/${slug}`}
@@ -212,7 +212,7 @@ export function Navbar() {
                 className="relative group p-2 rounded-md text-gray-300 hover:text-white focus:outline-none"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onMouseEnter={(e) => {
+                onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
                   const target = e.currentTarget.querySelector('span');
                   if (target) {
                     target.style.opacity = '0.3';
@@ -223,7 +223,7 @@ export function Navbar() {
                     iconTarget.style.animation = 'shine 1.5s ease-in-out infinite';
                   }
                 }}
-                onMouseLeave={(e) => {
+                onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
                   const target = e.currentTarget.querySelector('span');
                   if (target) {
                     target.style.opacity = '0';

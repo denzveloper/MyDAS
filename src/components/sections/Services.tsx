@@ -16,9 +16,9 @@ export function Services() {
     threshold: 0.1,
   })
 
-  const [hoveredIcon, setHoveredIcon] = useState(null);
+  const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
 
-  const getIconSpring = (slug) => useSpring({
+  const getIconSpring = (slug: string) => useSpring({
     transform: hoveredIcon === slug 
       ? 'rotate(5deg) scale(1.08)' 
       : 'rotate(0deg) scale(1)',
@@ -88,7 +88,7 @@ export function Services() {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
         >
-          {Object.entries(services).map(([slug, service], index) => {
+          {Object.entries(services).map(([slug, service]: [string, { title: string, description: string, iconName: string }], index) => {
             const Icon = getIconComponent(service.iconName);
             const iconSpring = getIconSpring(slug);
             
