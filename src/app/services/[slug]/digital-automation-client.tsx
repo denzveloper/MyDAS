@@ -79,7 +79,7 @@ export default function DigitalAutomationClient({ service }: DigitalAutomationCl
           </TabsContent>
 
           <TabsContent value="process" className="mt-4">
-            <AnimatedProcessSection process={service.process} />
+            <ProcessSection process={service.process} />
           </TabsContent>
         </Tabs>
       </div>

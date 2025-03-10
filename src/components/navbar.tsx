@@ -86,23 +86,23 @@ export function Navbar() {
               href="/" 
               className="relative font-bold text-2xl group overflow-hidden"
               onMouseEnter={(e) => {
-                const target = e.currentTarget.querySelector('.shimmer-effect');
+                const target = e.currentTarget.querySelector('.shimmer-effect') as HTMLElement;
                 if (target) {
                   target.style.opacity = '0.7';
                   target.style.animation = 'shimmer 2.5s linear infinite';
                 }
-                const textTarget = e.currentTarget.querySelector('.gold-text-effect');
+                const textTarget = e.currentTarget.querySelector('.gold-text-effect') as HTMLElement;
                 if (textTarget) {
                   textTarget.style.animation = 'shine 1.5s ease-in-out infinite';
                 }
               }}
               onMouseLeave={(e) => {
-                const target = e.currentTarget.querySelector('.shimmer-effect');
+                const target = e.currentTarget.querySelector('.shimmer-effect') as HTMLElement;
                 if (target) {
                   target.style.opacity = '0';
                   target.style.animation = 'none';
                 }
-                const textTarget = e.currentTarget.querySelector('.gold-text-effect');
+                const textTarget = e.currentTarget.querySelector('.gold-text-effect') as HTMLElement;
                 if (textTarget) {
                   textTarget.style.animation = 'subtle-pulse 3s ease infinite';
                 }
