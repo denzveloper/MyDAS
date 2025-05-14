@@ -1,8 +1,12 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { useSpring, animated } from '@react-spring/web'
+import { useState } from 'react'
 
 const portfolioItems = [
   {
@@ -35,13 +39,25 @@ const portfolioItems = [
 ]
 
 export function Portfolio() {
+  const [hovered, setHovered] = useState(false)
+
+  const buttonSpring = useSpring({
+    transform: hovered ? 'scale(1.05)' : 'scale(1)',
+    config: { stiffness: 210, damping: 20 }
+  })
+
+  const arrowSpring = useSpring({
+    x: hovered ? 5 : 0,
+    config: { stiffness: 120, damping: 14 }
+  })
+
   return (
     <section id="portfolio" className="py-20">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Work</h2>
           <p className="text-xl text-gray-600">
-            Discover how we've helped businesses achieve their digital goals
+            Discover how we’ve helped businesses achieve their digital goals
           </p>
         </div>
 
@@ -85,11 +101,20 @@ export function Portfolio() {
         </div>
 
         <div className="text-center mt-12">
-          <Button size="lg" asChild>
-            <Link href="/work">
-              View All Case Studies <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
+          <animated.div
+            style={buttonSpring}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            <Button size="lg" asChild>
+              <Link href="/work">
+                View All Case Studies
+                <animated.span style={arrowSpring}>
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </animated.span>
+              </Link>
+            </Button>
+          </animated.div>
         </div>
       </div>
     </section>

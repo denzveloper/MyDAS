@@ -14,6 +14,10 @@ import { OverviewSection } from "@/components/services/OverviewSection";
 import { FeaturesAndBenefits } from "@/components/services/FeaturesAndBenefits";
 import { ProcessSection } from "@/components/services/ProcessSection";
 import { CTASection } from "@/components/shared/CTASection";
+import { CaseStudiesSection } from "@/components/services/CaseStudiesSection";
+import { AnimatedProcessSection } from "@/components/services/AnimatedProcessSection";
+import { ROICalculator } from "@/components/services/ROICalculator";
+import { automationCaseStudies } from "@/lib/data/case-studies";
 
 interface DigitalAutomationClientProps {
   service: {
@@ -79,6 +83,12 @@ export default function DigitalAutomationClient({ service }: DigitalAutomationCl
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Case Studies Section */}
+      <CaseStudiesSection caseStudies={automationCaseStudies} />
+      
+      {/* ROI Calculator */}
+      <ROICalculator />
 
       {/* CTA Section */}
       <CTASection 

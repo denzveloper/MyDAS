@@ -77,6 +77,43 @@ html, body {
 }
 
 @layer utilities {
+  /* Gold text and shimmer effect for MIDAS logo */
+  .gold-text {
+    background: linear-gradient(to right, #f9d423 0%, #e6b422 25%, #f9d423 50%, #e2a90c 75%, #f9d423 100%);
+    background-size: 200% auto;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: subtle-pulse 3s ease infinite;
+  }
+  
+  .shimmer-mask {
+    mask-image: linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.7) 50%, transparent 75%);
+    mask-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+  
+  .group:hover .gold-text {
+    animation: shine 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { mask-position: -150% 0; }
+    100% { mask-position: 150% 0; }
+  }
+  
+  @keyframes shine {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+  }
+  
+  @keyframes subtle-pulse {
+    0% { opacity: 0.9; }
+    50% { opacity: 1; }
+    100% { opacity: 0.9; }
+  }
   .animate-fade-up {
     opacity: 0;
     animation: fade-up 0.5s ease forwards;

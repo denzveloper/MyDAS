@@ -7,11 +7,22 @@ import { services } from "@/lib/data/services"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { getIconComponent } from "@/lib/utils/icons"
+import { useSpring, animated, config } from '@react-spring/web'
+import { useState } from 'react'
 
 export function Services() {
   const [ref, inView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
+  })
+
+  const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
+
+  const getIconSpring = (slug: string) => useSpring({
+    transform: hoveredIcon === slug 
+      ? 'rotate(5deg) scale(1.08)' 
+      : 'rotate(0deg) scale(1)',
+    config: { tension: 300, friction: 20 }
   })
 
   const containerVariants = {
@@ -77,8 +88,10 @@ export function Services() {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
         >
-          {Object.entries(services).map(([slug, service], index) => {
+          {Object.entries(services).map(([slug, service]: [string, { title: string, description: string, iconName: string }], index) => {
             const Icon = getIconComponent(service.iconName);
+            const iconSpring = getIconSpring(slug);
+            
             return (
               <motion.div 
                 key={slug}
@@ -88,14 +101,13 @@ export function Services() {
                 <Link href={`/services/${slug}`}>
                   <Card className="border-2 hover:border-primary hover:shadow-lg transition-all duration-300 cursor-pointer h-full overflow-hidden group">
                     <CardHeader>
-                      <motion.div
-                        whileHover={{ 
-                          rotate: [0, -10, 10, -5, 0],
-                          transition: { duration: 0.5 }
-                        }}
+                      <animated.div
+                        style={iconSpring}
+                        onMouseEnter={() => setHoveredIcon(slug)}
+                        onMouseLeave={() => setHoveredIcon(null)}
                       >
-                        <Icon className="h-12 w-12 text-primary mb-4 group-hover:scale-110 transition-transform" />
-                      </motion.div>
+                        <Icon className="h-12 w-12 text-primary mb-4" />
+                      </animated.div>
                       <CardTitle className="group-hover:text-primary transition-colors">{service.title}</CardTitle>
                       <CardDescription>{service.description}</CardDescription>
                     </CardHeader>
