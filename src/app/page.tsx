@@ -1,4 +1,4 @@
-import { Layout } from "@/components/layout/Layout"
+// Removed import of Layout as Next.js app/layout.tsx handles layout
 import { Hero } from "@/components/sections/Hero"
 import { Services } from "@/components/sections/Services"
 import { Portfolio } from "@/components/sections/Portfolio"
@@ -10,7 +10,7 @@ import { ClientShowcase } from "@/components/sections/ClientShowcase"
 
 export default function Home() {
   return (
-    <Layout>
+    <>
       <Hero />
       <ClientShowcase />
       <Services />
@@ -19,6 +19,6 @@ export default function Home() {
       <Portfolio />
       <Testimonials />
       <CTA />
-    </Layout>
+    </>
   )
 }

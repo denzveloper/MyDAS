@@ -1,3 +1,10 @@
+import path from 'path'
+import { fileURLToPath } from 'url'
+import { dirname, resolve } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -8,6 +15,10 @@ const nextConfig = {
   },
   // Enable more detailed error messages in development
   webpack: (config, { dev, isServer }) => {
+    // Add alias for '@' to resolve to 'src' directory
+    if (!config.resolve) config.resolve = {};
+    if (!config.resolve.alias) config.resolve.alias = {};
+    config.resolve.alias['@'] = resolve(__dirname, 'src');
     if (dev && !isServer) {
       config.devtool = 'source-map';
     }
@@ -42,4 +53,4 @@ const nextConfig = {
   },
 }
 
-export default nextConfig 
+export default nextConfig
