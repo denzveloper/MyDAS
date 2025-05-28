@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { LoginModal } from "@/components/login-modal"
 
 const navigation = [
   { name: "Services", href: "#services" },
@@ -32,7 +33,9 @@ export function Header() {
             </Link>
           ))}
           <ThemeToggle />
-          <Button>Get Started</Button>
+          <LoginModal>
+            <Button>Login</Button>
+          </LoginModal>
         </div>
 
         {/* Mobile Navigation */}
@@ -55,7 +58,9 @@ export function Header() {
                     {item.name}
                   </Link>
                 ))}
-                <Button className="mt-4">Get Started</Button>
+                <LoginModal>
+                  <Button className="mt-4">Login</Button>
+                </LoginModal>
               </div>
             </SheetContent>
           </Sheet>
