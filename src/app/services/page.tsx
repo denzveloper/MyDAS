@@ -3,6 +3,9 @@ import { services } from "@/lib/data/services"
 import { LucideIcon } from "lucide-react"
 import { getIconComponent } from "@/lib/utils/icons"
 
+// Force dynamic rendering untuk mengatasi masalah environment variables
+export const dynamic = 'force-dynamic'
+
 export default function ServicesPage() {
   return (
     <div className="container mx-auto py-20 px-4">

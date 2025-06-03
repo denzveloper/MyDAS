@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { User, Session } from '@supabase/supabase-js'
+import { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 
 interface UseSupabaseReturn {
@@ -29,7 +29,7 @@ export function useSupabase(): UseSupabaseReturn {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: AuthChangeEvent, session: Session | null) => {
         setSession(session)
         setUser(session?.user ?? null)
         setLoading(false)

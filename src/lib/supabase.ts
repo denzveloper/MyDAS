@@ -4,20 +4,45 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-if (!supabaseUrl) {
-  console.error('❌ NEXT_PUBLIC_SUPABASE_URL is not defined in environment variables')
-  throw new Error('Supabase URL is required. Please check your environment variables.')
+// Flag untuk mengetahui apakah Supabase tersedia
+export const isSupabaseAvailable = !!(supabaseUrl && supabaseAnonKey)
+
+let supabaseClient: any = null
+
+if (isSupabaseAvailable) {
+  console.log('✅ Supabase configuration loaded successfully')
+  console.log('📍 Supabase URL:', supabaseUrl!.substring(0, 30) + '...')
+  supabaseClient = createClient(supabaseUrl!, supabaseAnonKey!)
+} else {
+  console.warn('⚠️ Supabase environment variables not found. Running in fallback mode.')
+  console.warn('📝 This is normal during build process without environment variables.')
+  
+  // Create a mock client untuk development/build
+  supabaseClient = {
+    auth: {
+      signUp: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+      signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+      signOut: () => Promise.resolve({ error: null }),
+      getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+      getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
+    },
+    from: () => ({
+      insert: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }) }) }),
+      select: () => ({ eq: () => ({ single: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }) }) }),
+      update: () => ({ eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }) }) }) })
+    }),
+    storage: {
+      from: () => ({
+        upload: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+        download: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+        getPublicUrl: () => ({ data: { publicUrl: '' } })
+      })
+    }
+  }
 }
 
-if (!supabaseAnonKey) {
-  console.error('❌ NEXT_PUBLIC_SUPABASE_ANON_KEY is not defined in environment variables')
-  throw new Error('Supabase Anon Key is required. Please check your environment variables.')
-}
-
-console.log('✅ Supabase configuration loaded successfully')
-console.log('📍 Supabase URL:', supabaseUrl.substring(0, 30) + '...')
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = supabaseClient
 
 // Type untuk database schema (disesuaikan dengan tabel users yang ada)
 export type Database = {

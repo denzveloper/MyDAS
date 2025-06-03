@@ -8,6 +8,9 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 
 import data from "./data.json"
 
+// Force dynamic rendering untuk mengatasi masalah environment variables
+export const dynamic = 'force-dynamic'
+
 export default function Page() {
   return (
     <div className="flex h-full w-full">

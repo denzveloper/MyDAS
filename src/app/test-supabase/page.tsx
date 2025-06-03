@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { LogIn, UserPlus } from 'lucide-react'
 
+// Force dynamic rendering untuk mengatasi masalah environment variables
+export const dynamic = 'force-dynamic'
+
 export default function TestSupabasePage() {
   return (
     <SupabaseProvider>

@@ -8,6 +8,9 @@ import { ParallaxSection } from "@/components/sections/ParallaxSection"
 import { FeaturesTab } from "@/components/sections/FeaturesTab"
 import { ClientShowcase } from "@/components/sections/ClientShowcase"
 
+// Force dynamic rendering untuk mengatasi masalah environment variables
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   return (
     <Layout>

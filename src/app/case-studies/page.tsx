@@ -1,5 +1,8 @@
 import Link from "next/link"
 
+// Force dynamic rendering untuk mengatasi masalah environment variables
+export const dynamic = 'force-dynamic'
+
 // Mock case study data
 const caseStudies = [
   { id: "digital-transformation", title: "Digital Transformation for Enterprise Retail" },

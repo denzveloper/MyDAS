@@ -18,6 +18,9 @@ export const metadata = {
   description: "MIDAS is a full-service marketing and digital agency specializing in brand development, digital marketing, and technology solutions.",
 }
 
+// Force dynamic rendering untuk mengatasi masalah environment variables
+export const dynamic = 'force-dynamic'
+
 interface RootLayoutProps {
   children: React.ReactNode
 }
