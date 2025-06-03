@@ -1,7 +1,21 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Validasi environment variables dengan error handling yang lebih baik
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+if (!supabaseUrl) {
+  console.error('❌ NEXT_PUBLIC_SUPABASE_URL is not defined in environment variables')
+  throw new Error('Supabase URL is required. Please check your environment variables.')
+}
+
+if (!supabaseAnonKey) {
+  console.error('❌ NEXT_PUBLIC_SUPABASE_ANON_KEY is not defined in environment variables')
+  throw new Error('Supabase Anon Key is required. Please check your environment variables.')
+}
+
+console.log('✅ Supabase configuration loaded successfully')
+console.log('📍 Supabase URL:', supabaseUrl.substring(0, 30) + '...')
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
