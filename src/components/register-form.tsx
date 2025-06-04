@@ -1,40 +1,31 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Eye, EyeOff, Loader2, UserPlus } from "lucide-react"
-import { toast } from "sonner"
-import { authHelpers } from "@/lib/auth-helpers"
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { toast } from 'sonner'
+import { UserPlus, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { authHelpers, RegisterData } from '@/lib/auth-helpers'
 
-interface RegisterModalProps {
-  children: React.ReactNode
-  onSuccess?: (email: string) => void
+interface RegisterFormData extends RegisterData {
+  confirmPassword: string
 }
 
-export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
+export function RegisterForm() {
+  const [formData, setFormData] = useState<RegisterFormData>({
+    nama_lengkap: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    perusahaan: '',
+    no_telepon: ''
+  })
+  
+  const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
-  
-  const [formData, setFormData] = useState({
-    nama_lengkap: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    perusahaan: "",
-    no_telepon: ""
-  })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -44,48 +35,46 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
     }))
   }
 
-  const validateForm = () => {
+  const validateForm = (): string | null => {
     if (!formData.nama_lengkap.trim()) {
-      toast.error("Nama lengkap harus diisi")
-      return false
+      return 'Nama lengkap harus diisi'
     }
     
     if (!formData.email.trim()) {
-      toast.error("Email harus diisi")
-      return false
+      return 'Email harus diisi'
     }
     
     if (!authHelpers.validateEmail(formData.email)) {
-      toast.error("Format email tidak valid")
-      return false
+      return 'Format email tidak valid'
     }
     
     if (!formData.password) {
-      toast.error("Password harus diisi")
-      return false
+      return 'Password harus diisi'
     }
     
     const passwordValidation = authHelpers.validatePassword(formData.password)
     if (!passwordValidation.isValid) {
-      toast.error(passwordValidation.message)
-      return false
+      return passwordValidation.message
     }
     
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Konfirmasi password tidak cocok")
-      return false
+      return 'Konfirmasi password tidak cocok'
     }
-    
-    return true
+
+    return null
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!validateForm()) return
-    
+    const validationError = validateForm()
+    if (validationError) {
+      toast.error(validationError)
+      return
+    }
+
     setIsLoading(true)
-    
+
     try {
       // Siapkan data untuk registrasi (exclude confirmPassword)
       const { confirmPassword, ...registerData } = formData
@@ -94,25 +83,22 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
       const result = await authHelpers.registerUser(registerData)
 
       if (result.success) {
-        toast.success('🎉 Registrasi berhasil! Silakan login dengan akun baru Anda.')
+        toast.success('Registrasi berhasil! Selamat datang di MIDAS!')
         
         // Reset form
         setFormData({
-          nama_lengkap: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-          perusahaan: "",
-          no_telepon: ""
+          nama_lengkap: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          perusahaan: '',
+          no_telepon: ''
         })
+
+        console.log('User registered:', result.data)
         
-        // Close modal
-        setIsOpen(false)
-        
-        // Call success callback - ini akan menampilkan modal login
-        onSuccess?.(result.data.email)
-        
-        console.log('✅ User registered successfully:', result.data.email)
+        // Optional: Redirect atau trigger event lain
+        // router.push('/dashboard')
         
       } else {
         toast.error(result.error || 'Registrasi gagal')
@@ -127,22 +113,20 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center flex items-center justify-center gap-2">
-            <UserPlus className="h-6 w-6" />
-            Daftar Akun
-          </DialogTitle>
-          <DialogDescription className="text-center text-muted-foreground">
-            Buat akun MIDAS untuk mengakses layanan eksklusif
-          </DialogDescription>
-        </DialogHeader>
-        
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader className="text-center">
+        <CardTitle className="flex items-center justify-center gap-2">
+          <UserPlus className="h-6 w-6" />
+          Daftar ke MIDAS
+        </CardTitle>
+        <CardDescription>
+          Buat akun baru untuk mengakses layanan MIDAS
+        </CardDescription>
+      </CardHeader>
+      
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Nama Lengkap */}
           <div className="space-y-2">
             <Label htmlFor="nama_lengkap">Nama Lengkap *</Label>
             <Input
@@ -156,7 +140,8 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
               required
             />
           </div>
-          
+
+          {/* Email */}
           <div className="space-y-2">
             <Label htmlFor="email">Email *</Label>
             <Input
@@ -171,6 +156,7 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
             />
           </div>
 
+          {/* Perusahaan (Optional) */}
           <div className="space-y-2">
             <Label htmlFor="perusahaan">Perusahaan</Label>
             <Input
@@ -184,8 +170,9 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
             />
           </div>
 
+          {/* No Telepon (Optional) */}
           <div className="space-y-2">
-            <Label htmlFor="no_telepon">Nomor Telepon</Label>
+            <Label htmlFor="no_telepon">No. Telepon</Label>
             <Input
               id="no_telepon"
               name="no_telepon"
@@ -196,7 +183,8 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
               disabled={isLoading}
             />
           </div>
-          
+
+          {/* Password */}
           <div className="space-y-2">
             <Label htmlFor="password">Password *</Label>
             <div className="relative">
@@ -229,7 +217,8 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
               Password harus mengandung huruf besar, huruf kecil, dan angka
             </p>
           </div>
-          
+
+          {/* Confirm Password */}
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Konfirmasi Password *</Label>
             <div className="relative">
@@ -259,12 +248,13 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
               </Button>
             </div>
           </div>
-          
+
+          {/* Submit Button */}
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Membuat Akun...
+                Mendaftarkan...
               </>
             ) : (
               <>
@@ -273,33 +263,13 @@ export function RegisterModal({ children, onSuccess }: RegisterModalProps) {
               </>
             )}
           </Button>
-          
-          <div className="text-center text-sm text-muted-foreground">
-            Sudah punya akun?{" "}
-            <Button 
-              type="button"
-              variant="link" 
-              className="px-0 text-sm"
-              onClick={() => setIsOpen(false)}
-              disabled={isLoading}
-            >
-              Login di sini
-            </Button>
-          </div>
-          
+
           <div className="text-xs text-muted-foreground text-center">
-            Dengan mendaftar, Anda menyetujui{" "}
-            <Button variant="link" className="px-0 text-xs h-auto">
-              Syarat & Ketentuan
-            </Button>{" "}
-            dan{" "}
-            <Button variant="link" className="px-0 text-xs h-auto">
-              Kebijakan Privasi
-            </Button>{" "}
-            MIDAS.
+            <p>Dengan mendaftar, Anda menyetujui</p>
+            <p>syarat dan ketentuan layanan MIDAS</p>
           </div>
         </form>
-      </DialogContent>
-    </Dialog>
+      </CardContent>
+    </Card>
   )
 } 

@@ -29,8 +29,9 @@ Aplikasi sekarang sudah dilengkapi dengan:
 4. **Tambahkan environment variables berikut:**
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://ycsorzkykxyfeazkmoei.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inljc29yemt5a3h5ZmVhemttb2VpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMzk3NzYsImV4cCI6MjA2MzkxNTc3Nn0.xt2aFoHnX0fw9mYsWEtlFVPVx9y57QmMXN_-q1H2uyE
+NEXT_PUBLIC_SUPABASE_URL=http://supabasekong-joc0wg4wkwo8o48swgswgo0g.217.15.164.63.sslip.io
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoiYW5vbiJ9.s0n5WLXlYRMK-Zk09DAgazMbdHzqIQAqLTHrid068mU
+SUPABASE_SERVICE_ROLE_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoic2VydmljZV9yb2xlIn0.j_gG3Pz6qnmVjvrQK9ab313Wl2HdJ96sbOkx-rxYQYc
 ```
 
 5. **Deploy ulang aplikasi** (otomatis setelah menambah env vars)
@@ -46,8 +47,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd
 2. **Pilih project Anda**
 3. **Masuk ke Settings > Environment Variables**
 4. **Tambahkan variables:**
-   - `NEXT_PUBLIC_SUPABASE_URL`: `https://ycsorzkykxyfeazkmoei.supabase.co`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+   - `NEXT_PUBLIC_SUPABASE_URL`: `http://supabasekong-joc0wg4wkwo8o48swgswgo0g.217.15.164.63.sslip.io`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...`
+   - `SUPABASE_SERVICE_ROLE_KEY`: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...`
 
 5. **Redeploy dari Deployments tab**
 
@@ -64,8 +66,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd
 Buat file `.env.production`:
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://ycsorzkykxyfeazkmoei.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inljc29yemt5a3h5ZmVhemttb2VpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMzk3NzYsImV4cCI6MjA2MzkxNTc3Nn0.xt2aFoHnX0fw9mYsWEtlFVPVx9y57QmMXN_-q1H2uyE
+NEXT_PUBLIC_SUPABASE_URL=http://supabasekong-joc0wg4wkwo8o48swgswgo0g.217.15.164.63.sslip.io
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoiYW5vbiJ9.s0n5WLXlYRMK-Zk09DAgazMbdHzqIQAqLTHrid068mU
+SUPABASE_SERVICE_ROLE_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoic2VydmljZV9yb2xlIn0.j_gG3Pz6qnmVjvrQK9ab313Wl2HdJ96sbOkx-rxYQYc
 ```
 
 ## 🧪 Test Deployment
@@ -106,79 +109,8 @@ Di browser console, Anda akan melihat:
 **Dengan Environment Variables:**
 ```
 ✅ Supabase configuration loaded successfully
-📍 Supabase URL: https://ycsorzkykxyf...
+📍 Supabase URL: http://supabasekong-joc0wg4wkwo8o48swgswgo0g.217.15.164.63.sslip.io
 ```
 
 **Tanpa Environment Variables:**
 ```
-⚠️ Supabase environment variables not found. Running in fallback mode.
-📝 This is normal during build process without environment variables.
-```
-
-### Build Error Logs
-
-Jika masih error, cek:
-
-1. **Spelling environment variable names**
-2. **Whitespace di values**
-3. **Special characters yang perlu di-escape**
-4. **Platform-specific requirements**
-
-## 🛠️ Fitur Fallback Mode
-
-Aplikasi sekarang memiliki **Fallback Mode** yang:
-
-- ✅ **Tidak crash** saat environment variables tidak tersedia
-- ✅ **Build berhasil** di semua kondisi
-- ✅ **Mock Supabase client** untuk development
-- ✅ **Graceful degradation** untuk fitur authentication
-- ✅ **Informative logging** untuk debugging
-
-### Behavior di Fallback Mode:
-
-- **Authentication**: Menampilkan pesan "Supabase not configured"
-- **Database Operations**: Return error message yang informatif
-- **UI Components**: Tetap render normal, hanya fungsi backend yang disabled
-- **Build Process**: Berjalan lancar tanpa crash
-
-## ✅ Checklist Deployment
-
-- [x] **Build berhasil tanpa environment variables** ✅
-- [x] **TypeScript errors fixed** ✅
-- [x] **Dynamic rendering configured** ✅
-- [x] **Fallback mode implemented** ✅
-- [ ] Environment variables diset di platform deployment
-- [ ] Test page `/test-supabase` berfungsi
-- [ ] Authentication flow bekerja
-- [ ] Database connection aktif
-
-## 🚀 Quick Deploy Commands
-
-```bash
-# Check environment
-npm run check-env
-
-# Build with env check
-npm run build:check
-
-# Full deployment test
-npm run deploy:check
-```
-
-## 🆘 Bantuan Lebih Lanjut
-
-Jika masih mengalami masalah:
-
-1. **Cek logs deployment** di platform Anda
-2. **Pastikan Supabase project aktif**
-3. **Verify API keys masih valid**
-4. **Test koneksi dari local development**
-5. **Cek browser console** untuk pesan Supabase status
-
----
-
-**Catatan:** 
-- ✅ Aplikasi sekarang **AMAN untuk deploy** tanpa environment variables
-- ✅ Build akan **SELALU BERHASIL** 
-- ✅ Tinggal tambahkan env vars di platform untuk aktivasi penuh Supabase
-- ❌ Jangan commit file `.env.local` atau `.env.production` ke Git 

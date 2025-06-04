@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google"
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { SupabaseProvider } from "@/lib/providers/SupabaseProvider"
+import { AuthProvider } from "@/lib/providers/AuthProvider"
 import { cn } from "@/lib/utils"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/layout/Footer"
@@ -17,9 +18,6 @@ export const metadata = {
   title: "MIDAS - Marketing & Digital Agency",
   description: "MIDAS is a full-service marketing and digital agency specializing in brand development, digital marketing, and technology solutions.",
 }
-
-// Force dynamic rendering untuk mengatasi masalah environment variables
-export const dynamic = 'force-dynamic'
 
 interface RootLayoutProps {
   children: React.ReactNode
@@ -41,14 +39,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
           enableSystem={false}
           disableTransitionOnChange
         >
-          <SupabaseProvider>
-            <Navbar />
-            <main className="flex-grow">
-              {children}
-            </main>
-            <Footer />
-            <Toaster />
-          </SupabaseProvider>
+          <AuthProvider>
+            <SupabaseProvider>
+              <Navbar />
+              <main className="flex-grow">
+                {children}
+              </main>
+              <Footer />
+              <Toaster />
+            </SupabaseProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
