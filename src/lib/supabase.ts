@@ -1,15 +1,39 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Validasi environment variables dengan error handling yang lebih baik
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+let supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 // Debug logging untuk production
 if (process.env.NEXT_PUBLIC_DEBUG === 'true') {
   console.log('🔍 Debug Supabase Config:')
-  console.log('📍 Full URL:', supabaseUrl)
+  console.log('📍 Original URL:', supabaseUrl)
   console.log('🔑 Has Key:', !!supabaseAnonKey)
   console.log('🌍 Environment:', process.env.NODE_ENV)
+}
+
+// FIX: Handle URL yang mungkin menyebabkan duplikasi /rest/v1/
+if (supabaseUrl) {
+  // Remove trailing /rest/v1 atau /rest/v1/ jika ada
+  supabaseUrl = supabaseUrl.replace(/\/rest\/v1\/?$/, '')
+  
+  // Pastikan tidak ada double slashes
+  supabaseUrl = supabaseUrl.replace(/\/+$/, '')
+  
+  // Special fix untuk proxy yang menambahkan /rest/v1 secara otomatis
+  // Jika URL mengandung proxy pattern, gunakan base domain saja
+  if (supabaseUrl.includes('sslip.io')) {
+    // Extract just the base domain untuk proxy
+    const urlParts = supabaseUrl.split('/')
+    supabaseUrl = `${urlParts[0]}//${urlParts[2]}`
+  }
+  
+  if (process.env.NEXT_PUBLIC_DEBUG === 'true') {
+    console.log('🔧 Fixed URL:', supabaseUrl)
+    console.log('🔍 URL Analysis:')
+    console.log('  - Contains sslip.io:', supabaseUrl.includes('sslip.io'))
+    console.log('  - Final URL length:', supabaseUrl.length)
+  }
 }
 
 // Flag untuk mengetahui apakah Supabase tersedia
@@ -21,7 +45,7 @@ if (isSupabaseAvailable) {
   console.log('✅ Supabase configuration loaded successfully')
   console.log('📍 Supabase URL:', supabaseUrl!.substring(0, 50) + '...')
   
-  // Custom configuration untuk handle proxy issues
+  // Simplified configuration - let Supabase handle the rest/v1 path correctly
   const supabaseConfig = {
     auth: {
       persistSession: false,
@@ -30,27 +54,6 @@ if (isSupabaseAvailable) {
     },
     db: {
       schema: 'public'
-    },
-    // Custom fetch function to handle URL issues
-    global: {
-      fetch: (input: RequestInfo | URL, init?: RequestInit) => {
-        // Convert input to string for URL manipulation
-        const url = typeof input === 'string' ? input : input.toString()
-        
-        // Log the actual URL being called for debugging
-        if (process.env.NEXT_PUBLIC_DEBUG === 'true') {
-          console.log('🌐 Actual fetch URL:', url)
-        }
-        
-        // Check for duplicate /rest/v1/ and fix it
-        const fixedUrl = url.replace('/rest/v1/rest/v1/', '/rest/v1/')
-        
-        if (fixedUrl !== url) {
-          console.log('🔧 Fixed duplicate URL:', fixedUrl)
-        }
-        
-        return fetch(fixedUrl, init)
-      }
     }
   }
   
