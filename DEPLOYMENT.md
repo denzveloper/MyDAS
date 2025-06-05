@@ -1,116 +1,179 @@
-# 🚀 Panduan Deployment MIDAS
+# 🚀 Deployment Guide - MIDAS
 
-## ❌ Error yang Sering Terjadi
+Panduan lengkap untuk deploy aplikasi MIDAS ke production.
 
-### "supabaseUrl is required"
+## 📋 Prerequisites
 
-Error ini terjadi karena environment variables tidak tersedia saat build process. Berikut cara mengatasinya:
+1. **Supabase Project** - Database dengan tabel `Mida_Login`
+2. **Environment Variables** - URL dan keys dari Supabase
+3. **Platform Deployment** - Vercel, Railway, atau hosting lainnya
 
-## ✅ **SOLUSI SUDAH DITERAPKAN**
+## 🔧 Setup Environment Variables
 
-Aplikasi sekarang sudah dilengkapi dengan:
-
-1. **🔄 Dynamic Rendering**: Semua halaman menggunakan `export const dynamic = 'force-dynamic'`
-2. **🛡️ Fallback Mode**: Supabase client dengan mock functions saat env vars tidak tersedia
-3. **📝 Better Error Handling**: Tidak akan crash saat build tanpa environment variables
-4. **🔧 TypeScript Fixes**: Semua type errors sudah diperbaiki
-
-**Status Build**: ✅ **BERHASIL** - Aplikasi bisa di-build tanpa environment variables!
-
-## 🔧 Solusi untuk Platform Deployment
-
-### 1. Railway (RECOMMENDED)
-
-**Langkah-langkah:**
-
-1. **Buka Railway Dashboard** → [railway.app](https://railway.app)
-2. **Pilih project Anda**
-3. **Masuk ke tab "Variables"**
-4. **Tambahkan environment variables berikut:**
+### 1. Required Variables
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=http://supabasekong-joc0wg4wkwo8o48swgswgo0g.217.15.164.63.sslip.io
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoiYW5vbiJ9.s0n5WLXlYRMK-Zk09DAgazMbdHzqIQAqLTHrid068mU
-SUPABASE_SERVICE_ROLE_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoic2VydmljZV9yb2xlIn0.j_gG3Pz6qnmVjvrQK9ab313Wl2HdJ96sbOkx-rxYQYc
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
-5. **Deploy ulang aplikasi** (otomatis setelah menambah env vars)
+### 2. Dapatkan Values dari Supabase
 
-**Hasil yang Diharapkan:**
-- ✅ Build berhasil (bahkan tanpa env vars)
-- ✅ Aplikasi berjalan normal setelah env vars ditambahkan
-- ✅ Supabase authentication berfungsi penuh
+1. Login ke [supabase.com](https://supabase.com)
+2. Pilih project Anda
+3. Go to **Settings** > **API**
+4. Copy:
+   - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
+   - **anon/public key** → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-### 2. Vercel
+## 🗄️ Database Setup
 
-1. **Buka Vercel Dashboard**
-2. **Pilih project Anda**
-3. **Masuk ke Settings > Environment Variables**
-4. **Tambahkan variables:**
-   - `NEXT_PUBLIC_SUPABASE_URL`: `http://supabasekong-joc0wg4wkwo8o48swgswgo0g.217.15.164.63.sslip.io`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...`
-   - `SUPABASE_SERVICE_ROLE_KEY`: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...`
+### Tabel Mida_Login
 
-5. **Redeploy dari Deployments tab**
+```sql
+CREATE TABLE IF NOT EXISTS Mida_Login (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  nama_lengkap TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL,
+  perusahaan TEXT,
+  no_telepon TEXT,
+  status TEXT DEFAULT 'active' CHECK (status IN ('active', 'inactive', 'pending')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  last_login TIMESTAMPTZ
+);
 
-### 3. Netlify
-
-1. **Buka Netlify Dashboard**
-2. **Pilih site Anda**
-3. **Site settings > Environment variables**
-4. **Tambahkan variables yang sama**
-5. **Trigger new deploy**
-
-### 4. Docker/Manual Deployment
-
-Buat file `.env.production`:
-
-```bash
-NEXT_PUBLIC_SUPABASE_URL=http://supabasekong-joc0wg4wkwo8o48swgswgo0g.217.15.164.63.sslip.io
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoiYW5vbiJ9.s0n5WLXlYRMK-Zk09DAgazMbdHzqIQAqLTHrid068mU
-SUPABASE_SERVICE_ROLE_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoic2VydmljZV9yb2xlIn0.j_gG3Pz6qnmVjvrQK9ab313Wl2HdJ96sbOkx-rxYQYc
+-- Create indexes
+CREATE INDEX IF NOT EXISTS idx_mida_login_email ON Mida_Login(email);
+CREATE INDEX IF NOT EXISTS idx_mida_login_status ON Mida_Login(status);
 ```
 
-## 🧪 Test Deployment
+### RLS Policies (Row Level Security)
 
-### Local Testing
+```sql
+-- Enable RLS
+ALTER TABLE Mida_Login ENABLE ROW LEVEL SECURITY;
 
-1. **Test build tanpa env vars:**
-```bash
-# Rename .env.local temporarily
-mv .env.local .env.local.backup
-npm run build  # Should work now!
-mv .env.local.backup .env.local
+-- Policy untuk registrasi (anyone can insert)
+CREATE POLICY "Allow registration" ON Mida_Login
+FOR INSERT WITH CHECK (true);
+
+-- Policy untuk login (anyone can read)
+CREATE POLICY "Allow login" ON Mida_Login
+FOR SELECT USING (true);
+
+-- Policy untuk update profile (users can update their own data)
+CREATE POLICY "Allow profile update" ON Mida_Login
+FOR UPDATE USING (true);
 ```
 
-2. **Test dengan env vars:**
+## 🌐 Platform-Specific Deployment
+
+### Vercel
+
+1. **Connect Repository**
+   ```bash
+   # Install Vercel CLI
+   npm i -g vercel
+   
+   # Deploy
+   vercel
+   ```
+
+2. **Set Environment Variables**
+   - Go to project dashboard
+   - Settings > Environment Variables
+   - Add kedua environment variables
+
+### Railway
+
+1. **Deploy via CLI**
+   ```bash
+   # Install Railway CLI
+   npm install -g @railway/cli
+   
+   # Login dan deploy
+   railway login
+   railway deploy
+   ```
+
+2. **Set Environment Variables**
+   ```bash
+   railway variables set NEXT_PUBLIC_SUPABASE_URL=your-url
+   railway variables set NEXT_PUBLIC_SUPABASE_ANON_KEY=your-key
+   ```
+
+### Netlify
+
+1. **Deploy via drag & drop atau Git**
+2. **Environment Variables**
+   - Site settings > Environment variables
+   - Add kedua variables
+
+## 🔍 Debugging Production Issues
+
+### 1. Check Environment Variables
+
 ```bash
-npm run build:check  # Includes env check
+npm run check-env
 ```
 
-3. **Test production build:**
+### 2. Build Locally
+
 ```bash
+npm run build
 npm run start
 ```
 
-### Production Testing
+### 3. Common Issues
 
-Setelah deploy, akses:
-- `https://your-domain.com/` - Homepage
-- `https://your-domain.com/test-supabase` - Test Supabase connection
-- `https://your-domain.com/services` - Services page
+#### Error: "maybeSingle is not a function"
+- **Cause**: Supabase client version mismatch atau environment variables missing
+- **Fix**: Pastikan environment variables ter-set dengan benar
 
-## 🔍 Debugging
+#### Error: "relation Mida_Login does not exist"
+- **Cause**: Tabel belum dibuat di database
+- **Fix**: Jalankan SQL script untuk membuat tabel
 
-### Cek Status Supabase
+#### Error: "row-level security policy"
+- **Cause**: RLS policies terlalu ketat atau belum dibuat
+- **Fix**: Setup RLS policies yang benar
 
-Di browser console, Anda akan melihat:
+### 4. Test Production
 
-**Dengan Environment Variables:**
+1. **Registrasi User Baru**
+   - Fill form registrasi
+   - Check database apakah data ter-insert
+   
+2. **Login Test**
+   - Gunakan akun yang sudah terdaftar
+   - Pastikan redirect ke dashboard berhasil
+
+## 📝 Environment Examples
+
+### Development (.env.local)
+```bash
+NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-local-anon-key
+NEXT_PUBLIC_DEBUG_MODE=true
 ```
-✅ Supabase configuration loaded successfully
-📍 Supabase URL: http://supabasekong-joc0wg4wkwo8o48swgswgo0g.217.15.164.63.sslip.io
+
+### Production
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://abcdefg.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-**Tanpa Environment Variables:**
-```
+## 🆘 Support
+
+Jika masih ada masalah:
+
+1. Check browser console untuk error details
+2. Check Supabase dashboard > Logs
+3. Pastikan tabel dan RLS policies sudah benar
+4. Test di local development dulu
+
+---
+
+**🎉 Selamat! Aplikasi MIDAS siap di production!**

@@ -92,18 +92,18 @@ export const authHelpers = {
 
       // 2. Check if email already exists
       console.log('🔍 Checking if email exists...')
-      const { data: existingUser, error: checkError } = await supabase
+      const { data: existingUsers, error: checkError } = await supabase
         .from('Mida_Login')
         .select('email')
         .eq('email', userData.email.toLowerCase())
-        .maybeSingle() // Use maybeSingle instead of single to avoid error when no data
+        .limit(1)
 
       if (checkError) {
         console.log('❌ Error checking existing user:', checkError)
-        // Don't return error here, continue with registration
+        return { success: false, error: 'Database error saat mengecek email' }
       }
 
-      if (existingUser) {
+      if (existingUsers && existingUsers.length > 0) {
         console.log('❌ Email already exists:', userData.email)
         return { success: false, error: 'Email sudah terdaftar' }
       }
@@ -134,11 +134,10 @@ export const authHelpers = {
 
       // 5. Insert user data
       console.log('💾 Inserting user data...')
-      const { data: newUser, error: insertError } = await supabase
+      const { data: newUsers, error: insertError } = await supabase
         .from('Mida_Login')
         .insert(insertData)
         .select('id, nama_lengkap, email, perusahaan, no_telepon, status, created_at')
-        .single()
 
       if (insertError) {
         console.error('❌ Insert error details:', {
@@ -158,6 +157,12 @@ export const authHelpers = {
         } else {
           return { success: false, error: `Database error: ${insertError.message}` }
         }
+      }
+
+      const newUser = newUsers && newUsers[0]
+      if (!newUser) {
+        console.log('❌ No user data returned after insert')
+        return { success: false, error: 'Gagal membuat user baru' }
       }
 
       console.log('✅ User registered successfully:', newUser)
@@ -189,23 +194,24 @@ export const authHelpers = {
 
       // 2. Find user by email
       console.log('🔍 Looking for user with email:', loginData.email.toLowerCase())
-      const { data: user, error: userError } = await supabase
+      const { data: users, error: userError } = await supabase
         .from('Mida_Login')
         .select('*')
         .eq('email', loginData.email.toLowerCase())
         .eq('status', 'active')
-        .maybeSingle() // Use maybeSingle instead of single
+        .limit(1)
 
       if (userError) {
         console.log('❌ Database error when finding user:', userError)
         return { success: false, error: 'Terjadi kesalahan saat mencari user' }
       }
 
-      if (!user) {
+      if (!users || users.length === 0) {
         console.log('❌ User not found or inactive for email:', loginData.email)
         return { success: false, error: 'Email atau password salah' }
       }
 
+      const user = users[0]
       console.log('✅ User found:', { id: user.id, email: user.email, status: user.status })
 
       // 3. Verify password

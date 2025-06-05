@@ -1,58 +1,57 @@
 #!/usr/bin/env node
 
 /**
- * Script untuk mengecek environment variables sebelum deployment
- * Jalankan dengan: node scripts/check-env.js
+ * Script untuk memvalidasi environment variables yang dibutuhkan
+ * Jalankan dengan: npm run check-env
  */
 
 const requiredEnvVars = [
   'NEXT_PUBLIC_SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY'
-]
+];
 
-const optionalEnvVars = [
-  'SUPABASE_SERVICE_ROLE_KEY',
-  'NEXTAUTH_URL',
-  'NEXTAUTH_SECRET'
-]
+console.log('🔍 Checking environment variables...\n');
 
-console.log('🔍 Checking Environment Variables...\n')
+let hasError = false;
 
-let hasErrors = false
-
-// Check required variables
-console.log('📋 Required Variables:')
-requiredEnvVars.forEach(varName => {
-  const value = process.env[varName]
-  if (value) {
-    console.log(`✅ ${varName}: ${value.substring(0, 20)}...`)
+requiredEnvVars.forEach(envVar => {
+  const value = process.env[envVar];
+  
+  if (!value) {
+    console.log(`❌ ${envVar}: MISSING`);
+    hasError = true;
   } else {
-    console.log(`❌ ${varName}: MISSING`)
-    hasErrors = true
+    // Show partial value for security
+    const displayValue = value.length > 20 
+      ? value.substring(0, 20) + '...' 
+      : value;
+    console.log(`✅ ${envVar}: ${displayValue}`);
   }
-})
+});
 
-console.log('\n📋 Optional Variables:')
-optionalEnvVars.forEach(varName => {
-  const value = process.env[varName]
-  if (value) {
-    console.log(`✅ ${varName}: ${value.substring(0, 20)}...`)
-  } else {
-    console.log(`⚠️  ${varName}: Not set (optional)`)
-  }
-})
+console.log('\n📋 Environment Check Summary:');
 
-console.log('\n' + '='.repeat(50))
-
-if (hasErrors) {
-  console.log('❌ DEPLOYMENT WILL FAIL!')
-  console.log('\n🔧 To fix this:')
-  console.log('1. Copy .env.local to .env.production')
-  console.log('2. Or set environment variables in your deployment platform')
-  console.log('3. Check DEPLOYMENT.md for platform-specific instructions')
-  process.exit(1)
+if (hasError) {
+  console.log('❌ Some environment variables are missing!');
+  console.log('\n📝 To fix this:');
+  console.log('1. Copy .env.example to .env.local');
+  console.log('2. Fill in your Supabase project values');
+  console.log('3. For production, set these in your deployment platform');
+  console.log('\n🔗 Get your Supabase values from:');
+  console.log('   Project Settings > API > URL & anon key');
+  
+  process.exit(1);
 } else {
-  console.log('✅ All required environment variables are set!')
-  console.log('🚀 Ready for deployment!')
-  process.exit(0)
+  console.log('✅ All required environment variables are set!');
+  console.log('\n🚀 You can now run: npm run build');
+}
+
+// Additional checks
+if (process.env.NODE_ENV === 'production') {
+  console.log('\n🏭 Production environment detected');
+  
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (url && !url.startsWith('https://')) {
+    console.log('⚠️  Warning: Supabase URL should use HTTPS in production');
+  }
 } 

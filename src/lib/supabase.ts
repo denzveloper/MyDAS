@@ -17,7 +17,7 @@ if (isSupabaseAvailable) {
   console.warn('⚠️ Supabase environment variables not found. Running in fallback mode.')
   console.warn('📝 This is normal during build process without environment variables.')
   
-  // Create a mock client untuk development/build
+  // Create a more comprehensive mock client untuk development/build
   supabaseClient = {
     auth: {
       signUp: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
@@ -27,10 +27,63 @@ if (isSupabaseAvailable) {
       getSession: () => Promise.resolve({ data: { session: null }, error: null }),
       onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
     },
-    from: () => ({
-      insert: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }) }) }),
-      select: () => ({ eq: () => ({ single: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }) }) }),
-      update: () => ({ eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }) }) }) })
+    from: (table: string) => ({
+      insert: (data: any) => ({
+        select: (fields?: string) => ({
+          single: () => Promise.resolve({ 
+            data: null, 
+            error: { message: 'Supabase not configured - please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY' } 
+          }),
+          limit: (count: number) => Promise.resolve({ 
+            data: [], 
+            error: { message: 'Supabase not configured - please set environment variables' } 
+          })
+        }),
+        limit: (count: number) => Promise.resolve({ 
+          data: [], 
+          error: { message: 'Supabase not configured - please set environment variables' } 
+        })
+      }),
+      select: (fields?: string) => ({
+        eq: (column: string, value: any) => ({
+          eq: (column2: string, value2: any) => ({
+            single: () => Promise.resolve({ 
+              data: null, 
+              error: { message: 'Supabase not configured - please set environment variables' } 
+            }),
+            limit: (count: number) => Promise.resolve({ 
+              data: [], 
+              error: { message: 'Supabase not configured - please set environment variables' } 
+            })
+          }),
+          single: () => Promise.resolve({ 
+            data: null, 
+            error: { message: 'Supabase not configured - please set environment variables' } 
+          }),
+          limit: (count: number) => Promise.resolve({ 
+            data: [], 
+            error: { message: 'Supabase not configured - please set environment variables' } 
+          })
+        }),
+        single: () => Promise.resolve({ 
+          data: null, 
+          error: { message: 'Supabase not configured - please set environment variables' } 
+        }),
+        limit: (count: number) => Promise.resolve({ 
+          data: [], 
+          error: { message: 'Supabase not configured - please set environment variables' } 
+        })
+      }),
+      update: (data: any) => ({
+        eq: (column: string, value: any) => ({
+          select: (fields?: string) => ({
+            single: () => Promise.resolve({ 
+              data: null, 
+              error: { message: 'Supabase not configured - please set environment variables' } 
+            })
+          })
+        })
+      })
     }),
     storage: {
       from: () => ({
