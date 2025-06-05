@@ -4,6 +4,14 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
+// Debug logging untuk production
+if (process.env.NEXT_PUBLIC_DEBUG === 'true') {
+  console.log('🔍 Debug Supabase Config:')
+  console.log('📍 Full URL:', supabaseUrl)
+  console.log('🔑 Has Key:', !!supabaseAnonKey)
+  console.log('🌍 Environment:', process.env.NODE_ENV)
+}
+
 // Flag untuk mengetahui apakah Supabase tersedia
 export const isSupabaseAvailable = !!(supabaseUrl && supabaseAnonKey)
 
@@ -11,8 +19,42 @@ let supabaseClient: any = null
 
 if (isSupabaseAvailable) {
   console.log('✅ Supabase configuration loaded successfully')
-  console.log('📍 Supabase URL:', supabaseUrl!.substring(0, 30) + '...')
-  supabaseClient = createClient(supabaseUrl!, supabaseAnonKey!)
+  console.log('📍 Supabase URL:', supabaseUrl!.substring(0, 50) + '...')
+  
+  // Custom configuration untuk handle proxy issues
+  const supabaseConfig = {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false
+    },
+    db: {
+      schema: 'public'
+    },
+    // Custom fetch function to handle URL issues
+    global: {
+      fetch: (input: RequestInfo | URL, init?: RequestInit) => {
+        // Convert input to string for URL manipulation
+        const url = typeof input === 'string' ? input : input.toString()
+        
+        // Log the actual URL being called for debugging
+        if (process.env.NEXT_PUBLIC_DEBUG === 'true') {
+          console.log('🌐 Actual fetch URL:', url)
+        }
+        
+        // Check for duplicate /rest/v1/ and fix it
+        const fixedUrl = url.replace('/rest/v1/rest/v1/', '/rest/v1/')
+        
+        if (fixedUrl !== url) {
+          console.log('🔧 Fixed duplicate URL:', fixedUrl)
+        }
+        
+        return fetch(fixedUrl, init)
+      }
+    }
+  }
+  
+  supabaseClient = createClient(supabaseUrl!, supabaseAnonKey!, supabaseConfig)
 } else {
   console.warn('⚠️ Supabase environment variables not found. Running in fallback mode.')
   console.warn('📝 This is normal during build process without environment variables.')
