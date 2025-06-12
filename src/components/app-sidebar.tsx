@@ -48,6 +48,11 @@ const data = {
       url: "/orion",
       icon: MegaphoneIcon,
     },
+    {
+      title: "Kol",
+      url: "/kol",
+      icon: UsersIcon,
+    },
   ],
   navClouds: [
     {
