@@ -48,21 +48,6 @@ const data = {
       url: "/orion",
       icon: MegaphoneIcon,
     },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: BarChartIcon,
-    },
-    {
-      title: "Clients",
-      url: "#",
-      icon: UsersIcon,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: FolderIcon,
-    },
   ],
   navClouds: [
     {
