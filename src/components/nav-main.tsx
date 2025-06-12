@@ -1,8 +1,11 @@
 "use client"
 
 import { MailIcon, PlusCircleIcon, type LucideIcon } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -43,14 +46,24 @@ export function NavMain({
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            const isActive = usePathname() === item.url
+            return (
+              <SidebarMenuItem key={item.title}>
+                <Link href={item.url} className="w-full">
+                  <SidebarMenuButton 
+                    tooltip={item.title}
+                    className={cn(
+                      isActive && "bg-muted"
+                    )}
+                  >
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+            )
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

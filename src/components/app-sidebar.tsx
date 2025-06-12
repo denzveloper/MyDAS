@@ -24,7 +24,7 @@ import {
 import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+
 import {
   Sidebar,
   SidebarContent,
@@ -36,11 +36,7 @@ import {
 } from "@/components/ui/sidebar"
 
 const data = {
-  user: {
-    name: "Admin MIDAS",
-    email: "admin@midas.agency",
-    avatar: "/avatars/admin.jpg",
-  },
+
   navMain: [
     {
       title: "Dashboard",
@@ -48,8 +44,8 @@ const data = {
       icon: LayoutDashboardIcon,
     },
     {
-      title: "Campaigns",
-      url: "#",
+      title: "Orion",
+      url: "/orion",
       icon: MegaphoneIcon,
     },
     {
@@ -178,9 +174,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <NavDocuments items={data.documents} />
           <NavSecondary items={data.navSecondary} className="mt-auto" />
         </SidebarContent>
-        <SidebarFooter>
-          <NavUser user={data.user} />
-        </SidebarFooter>
       </Sidebar>
     </div>
   )

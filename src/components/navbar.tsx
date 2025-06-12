@@ -6,15 +6,18 @@ import { Menu, X, ChevronDown } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
 import { Button } from "@/components/ui/button"
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion"
+import { NavUser } from "./nav-user"
+import { useAuth } from "@/lib/providers/AuthProvider"
 import { services } from "@/lib/data/services"
 import { useSpring, animated } from '@react-spring/web'
 
 export function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { scrollY } = useScroll()
+  const { user } = useAuth()
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
   const servicesRef = useRef<HTMLDivElement>(null)
-  const { scrollY } = useScroll()
   
   const chevronSpring = useSpring({
     transform: servicesDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
@@ -268,13 +271,13 @@ export function Navbar() {
               </motion.button>
             </div>
             <ThemeToggle />
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="hidden md:block"
-            >
-              <Button>Get Started</Button>
-            </motion.div>
+            {user ? (
+              <NavUser user={user} />
+            ) : (
+              <Button asChild>
+                <Link href="/login">Get Started</Link>
+              </Button>
+            )}
           </motion.div>
         </div>
       </div>
