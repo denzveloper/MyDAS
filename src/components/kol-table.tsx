@@ -34,10 +34,10 @@ export default function KolTable() {
         let res
         if (viewSlug) {
           // gunakan view spesifik
-          res = await nocodb.dbViewRow.list(projectSlug, tableSlug, viewSlug, fieldSetSlug)
+          res = await nocodb.dbViewRow.list(projectSlug!, tableSlug!, viewSlug!, fieldSetSlug)
         } else {
           // fallback ambil semua row tabel
-          res = await nocodb.dbTableRow.list(projectSlug, tableSlug)
+          res = await nocodb.dbTableRow.list(projectSlug!, tableSlug!)
         }
         // @ts-ignore
         setData(res.list as KolRecord[])
