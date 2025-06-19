@@ -7,7 +7,7 @@ import { AuthProvider } from "@/lib/providers/AuthProvider"
 import { cn } from "@/lib/utils"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/layout/Footer"
-import { Toaster } from "sonner"
+import { Toaster } from "@/components/toaster"
 
 const fontSans = FontSans({
   subsets: ["latin"],
