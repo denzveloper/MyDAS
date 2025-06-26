@@ -2,9 +2,12 @@ import "@/app/globals.css"
 import { Inter as FontSans } from "next/font/google"
 
 import { ThemeProvider } from "@/components/theme-provider"
+import { SupabaseProvider } from "@/lib/providers/SupabaseProvider"
+import { AuthProvider } from "@/lib/providers/AuthProvider"
 import { cn } from "@/lib/utils"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/layout/Footer"
+import { Toaster } from "@/components/toaster"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -36,11 +39,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Navbar />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
+          <AuthProvider>
+            <SupabaseProvider>
+              <Navbar />
+              <main className="flex-grow">
+                {children}
+              </main>
+              <Footer />
+              <Toaster />
+            </SupabaseProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

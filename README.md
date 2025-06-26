@@ -127,3 +127,34 @@ The following files appear to be unused and can be considered for removal:
 ## 📄 License
 
 MIT
+
+## 🔧 Konfigurasi
+
+### Environment Variables
+
+Buat file `.env.local` di root project:
+
+```bash
+# Supabase Configuration (Updated)
+NEXT_PUBLIC_SUPABASE_URL=http://supabasekong-joc0wg4wkwo8o48swgswgo0g.217.15.164.63.sslip.io
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoiYW5vbiJ9.s0n5WLXlYRMK-Zk09DAgazMbdHzqIQAqLTHrid068mU
+
+# Optional: Supabase Service Role Key (untuk server-side operations)
+SUPABASE_SERVICE_ROLE_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc0ODk0MDEyMCwiZXhwIjo0OTA0NjEzNzIwLCJyb2xlIjoic2VydmljZV9yb2xlIn0.j_gG3Pz6qnmVjvrQK9ab313Wl2HdJ96sbOkx-rxYQYc
+
+# Next.js Configuration
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret_here
+```
+
+**⚠️ PENTING:** 
+- Jangan commit file `.env.local` ke Git
+- Pastikan `.env.local` ada di `.gitignore`
+- Untuk production, set environment variables di platform deployment Anda
+
+### ✅ **KEUNGGULAN KONFIGURASI TERBARU**
+
+1. **🛡️ Build Tanpa Error**: Aplikasi bisa di-build bahkan tanpa environment variables
+2. **🔄 Fallback Mode**: Mock Supabase client saat development 
+3. **📝 Better Error Handling**: Informative messages untuk debugging
+4. **🚀 Ready for Any Platform**: Deploy ke Railway, Vercel, Netlify tanpa masalah

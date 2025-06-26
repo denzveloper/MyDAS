@@ -8,6 +8,9 @@ import { ServiceFeatures } from "@/components/services/ServiceFeatures"
 import { ServiceBenefits } from "@/components/services/ServiceBenefits"
 import { ServiceProcess } from "@/components/services/ServiceProcess"
 
+// Force dynamic rendering untuk mengatasi masalah environment variables
+export const dynamic = 'force-dynamic'
+
 export function generateStaticParams() {
   return Object.keys(services).map((slug) => ({
     slug,
