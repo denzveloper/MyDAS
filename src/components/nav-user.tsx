@@ -24,12 +24,29 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { MidaLoginUser } from "@/lib/auth-helpers"
+import { useAuth } from "@/lib/providers/AuthProvider"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export function NavUser({
   user,
 }: {
   user: MidaLoginUser
 }) {
+  const { logout } = useAuth()
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      toast.success('Berhasil logout. Sampai jumpa!')
+      router.push('/')
+    } catch (error) {
+      console.error('Error during logout:', error)
+      toast.error('Gagal logout, silakan coba lagi')
+    }
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -84,7 +101,7 @@ export function NavUser({
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOutIcon className="mr-2 size-4" />
           Log out
         </DropdownMenuItem>

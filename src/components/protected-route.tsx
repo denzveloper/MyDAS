@@ -16,7 +16,17 @@ export function ProtectedRoute({ children, redirectTo = '/' }: ProtectedRoutePro
   const router = useRouter()
   const [isChecking, setIsChecking] = useState(true)
 
+  // Check if we're in development mode
+  const isDevelopment = process.env.NODE_ENV === 'development'
+
   useEffect(() => {
+    // Skip authentication check in development mode
+    if (isDevelopment) {
+      console.log('🔓 Development mode: Bypassing authentication check')
+      setIsChecking(false)
+      return
+    }
+
     if (!isLoading) {
       if (!isAuthenticated) {
         console.log('❌ User not authenticated, redirecting to:', redirectTo)
@@ -26,9 +36,9 @@ export function ProtectedRoute({ children, redirectTo = '/' }: ProtectedRoutePro
       console.log('✅ User authenticated, allowing access')
       setIsChecking(false)
     }
-  }, [isAuthenticated, isLoading, router, redirectTo])
+  }, [isAuthenticated, isLoading, router, redirectTo, isDevelopment])
 
-  if (isLoading || isChecking) {
+  if (!isDevelopment && (isLoading || isChecking)) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Card className="w-full max-w-md">
@@ -44,7 +54,7 @@ export function ProtectedRoute({ children, redirectTo = '/' }: ProtectedRoutePro
     )
   }
 
-  if (!isAuthenticated) {
+  if (!isDevelopment && !isAuthenticated) {
     return null // Will redirect
   }
 

@@ -2,12 +2,13 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 import { MidaLoginUser } from '@/lib/auth-helpers'
+import { supabase } from '@/lib/supabase'
 
 interface AuthContextType {
   user: MidaLoginUser | null
   isLoading: boolean
   login: (userData: MidaLoginUser) => void
-  logout: () => void
+  logout: () => Promise<void>
   isAuthenticated: boolean
 }
 
@@ -37,9 +38,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('midas_user', JSON.stringify(userData))
   }
 
-  const logout = () => {
-    setUser(null)
-    localStorage.removeItem('midas_user')
+  const logout = async () => {
+    try {
+      // Logout dari Supabase
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        console.error('Error signing out from Supabase:', error)
+      }
+      
+      // Clear local storage dan state
+      setUser(null)
+      localStorage.removeItem('midas_user')
+    } catch (error) {
+      console.error('Error during logout:', error)
+      // Tetap clear local storage dan state meskipun ada error
+      setUser(null)
+      localStorage.removeItem('midas_user')
+    }
   }
 
   const isAuthenticated = !!user
